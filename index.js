@@ -22,18 +22,23 @@ let listings = [
 	},
 ];
 
-let lastId = 0;
+let lastId = 2; // Update lastId to reflect the current highest ID
 
-//MIDDLEWARE
+// MIDDLEWARE
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
-//Route: Get ALL listed items
+// Route: Welcome message for the root path
+app.get("/", (req, res) => {
+	res.send("Welcome to the Shopping List API. Use /api/listing for API endpoints.");
+});
+
+// Route: Get ALL listed items
 app.get("/api/listing", (req, res) => {
 	res.json({ data: listings });
 });
 
-//Route: Get one listed item by id
+// Route: Get one listed item by id
 app.get("/api/listing/:id", (req, res) => {
 	const id = parseInt(req.params.id);
 	const item = listings.find((listing) => listing.id === id);
@@ -53,15 +58,15 @@ app.put("/api/listing/:id", (req, res) => {
 	if (index != -1) {
 		listings[index] = {
 			...listings[index],
-			...req.body, //only update the fields provided in the request body
+			...req.body, // only update the fields provided in the request body
 		};
 		res.json({ data: listings[index] });
 	} else {
-		res.status(404).json({ error: "item not found" });
+		res.status(404).json({ error: "Item not found" });
 	}
 });
 
-//Route: Create a new listing
+// Route: Create a new listing
 app.post("/api/listing", (req, res) => {
 	const { title, description, seller, rating = null } = req.body;
 	const newListing = {
@@ -75,7 +80,7 @@ app.post("/api/listing", (req, res) => {
 	res.status(201).json({ data: newListing });
 });
 
-//Route: Delete a listed item by ID
+// Route: Delete a listed item by ID
 app.delete("/api/listing/:id", (req, res) => {
 	const id = parseInt(req.params.id);
 	const index = listings.findIndex((listing) => listing.id === id);
@@ -84,7 +89,7 @@ app.delete("/api/listing/:id", (req, res) => {
 		listings.splice(index, 1);
 		res.sendStatus(200);
 	} else {
-		res.status(404).json({ error: "item not found" });
+		res.status(404).json({ error: "Item not found" });
 	}
 });
 
