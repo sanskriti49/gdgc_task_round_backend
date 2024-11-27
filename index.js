@@ -29,12 +29,12 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
 //Route: Get ALL listed items
-app.get("/listing", (req, res) => {
+app.get("/api/listing", (req, res) => {
 	res.json({ data: listings });
 });
 
 //Route: Get one listed item by id
-app.get("/listing/:id", (req, res) => {
+app.get("/api/listing/:id", (req, res) => {
 	const id = parseInt(req.params.id);
 	const item = listings.find((listing) => listing.id === id);
 
@@ -46,7 +46,7 @@ app.get("/listing/:id", (req, res) => {
 });
 
 // Route: Update a listed item by ID
-app.put("/listing/:id", (req, res) => {
+app.put("/api/listing/:id", (req, res) => {
 	const id = parseInt(req.params.id);
 	const index = listings.findIndex((listing) => listing.id === id);
 
@@ -62,7 +62,7 @@ app.put("/listing/:id", (req, res) => {
 });
 
 //Route: Create a new listing
-app.post("/listing", (req, res) => {
+app.post("/api/listing", (req, res) => {
 	const { title, description, seller, rating = null } = req.body;
 	const newListing = {
 		id: ++lastId,
@@ -76,7 +76,7 @@ app.post("/listing", (req, res) => {
 });
 
 //Route: Delete a listed item by ID
-app.delete("/listing/:id", (req, res) => {
+app.delete("/api/listing/:id", (req, res) => {
 	const id = parseInt(req.params.id);
 	const index = listings.findIndex((listing) => listing.id === id);
 
